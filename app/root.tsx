@@ -4,8 +4,9 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "@remix-run/react";
-import "./tailwind.css";
+} from '@remix-run/react';
+import '@xyflow/react/dist/style.css';
+import './tailwind.css';
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (

@@ -22,11 +22,7 @@ module.exports = {
   ignorePatterns: ['!**/.server', '!**/.client'],
 
   // Base config
-  extends: [
-    'eslint:recommended',
-    '@remix-run/eslint-config',
-    '@remix-run/eslint-config/node',
-  ],
+  extends: ['eslint:recommended'],
 
   overrides: [
     // React

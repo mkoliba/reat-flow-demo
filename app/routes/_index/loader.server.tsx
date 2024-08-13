@@ -1,6 +1,7 @@
 import type { Edge, Node } from '@prisma/client';
-import { json, type LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
 import invariant from 'tiny-invariant';
+
 import { db } from '~/db.server';
 
 const normalizeNode = (node: Node) => ({
@@ -18,18 +19,12 @@ const normaliseEdge = (edge: Edge) => ({
 export type NormalisedNode = ReturnType<typeof normalizeNode>;
 export type NormalisedEdge = ReturnType<typeof normaliseEdge>;
 
-export const loader = async ({ request, params }: LoaderFunctionArgs) => {
-  const graph = await db.graph.findFirst({
-    include: {
-      nodes: true,
-      edges: true,
-    },
-  });
+export const loader = async () => {
+  const graphs = await db.graph.findMany();
 
-  invariant(graph != null, 'Graph not found');
+  invariant(graphs != null, 'Graph not found');
 
   return json({
-    nodes: graph.nodes.map(normalizeNode),
-    edges: graph.edges.map(normaliseEdge),
+    graphs: graphs.map((graph) => ({ id: graph.id, name: graph.name })),
   });
 };
