@@ -14,6 +14,8 @@ set up the environment variables:
 cp .env.example .env
 ```
 
+make sure that env variables are set up correctly and loaded
+
 create database and run migrations:
 
 ```shellscript

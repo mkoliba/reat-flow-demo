@@ -39,19 +39,33 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
     where: { id: graphId },
     data: {
       nodes: {
-        updateMany: result.data.nodes.map(({ id, data, position }) => ({
-          where: { id },
-          data: {
+        upsert: result.data.nodes.map(({ id, data, position }) => ({
+          create: {
+            id,
             label: data.label,
             positionX: position.x,
             positionY: position.y,
           },
+          update: {
+            label: data.label,
+            positionX: position.x,
+            positionY: position.y,
+          },
+          where: { id },
         })),
       },
       edges: {
-        updateMany: result.data.edges.map(({ id, source, target }) => ({
+        upsert: result.data.edges.map(({ id, source, target }) => ({
+          create: {
+            id: id,
+            sourceId: source,
+            targetId: target,
+          },
+          update: {
+            sourceId: source,
+            targetId: target,
+          },
           where: { id },
-          data: { sourceId: source, targetId: target },
         })),
       },
     },
